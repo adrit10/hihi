@@ -1,0 +1,27 @@
+name: Build macOS Executable
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.13'  
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build Executable
+        run: pyinstaller --onefile --windowed acronym_generator.py
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: acronym_generator
+          path: dist/
